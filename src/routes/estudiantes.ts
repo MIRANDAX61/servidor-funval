@@ -14,6 +14,7 @@ let siguienteId: number = 1;
 
 
 router.get("/", function (req, res) {
+    // #swagger.description = 'Lista estudiantes y permite filtrar por bootcamp'
     const bootcamp = req.query.bootcamp;
 
     if (typeof bootcamp === "string") {
@@ -28,9 +29,27 @@ router.get("/", function (req, res) {
     res.status(200).json(estudiantes);
 });
 
+router.get("/:id", function (req, res) {
+    // #swagger.description = 'Busca un estudiante por ID. Responde 404 si no existe.'
 
+    const idBuscando = Number(req.params.id);
+
+    const estudianteEncontrado = estudiantes.find(
+        (estudiante) => estudiante.id === idBuscando
+    );
+
+    if (!estudianteEncontrado) {
+        res.status(404).json({
+            mensaje: "Estudiante no encontrado."
+        });
+        return;
+    }
+
+    res.status(200).json(estudianteEncontrado);
+});
 
 router.post("/", function (req,res) { 
+// #swagger.description = 'Crea un estudiante. El email es obligatorio y el servidor genera el ID'
   const { nombre, email, bootcamp } = req.body ?? {};
 
   if (!email) {
@@ -54,6 +73,7 @@ router.post("/", function (req,res) {
 });
 
   router.put("/:id", function (req, res) {
+  // #swagger.description = 'Actualiza los datos de un estudiante existente'
     const idBuscando = Number(req.params.id);
 
     const estudianteEncontrado = estudiantes.find(
@@ -77,6 +97,7 @@ router.post("/", function (req,res) {
 });
 
 router.delete("/:id", function (req, res) {
+// #swagger.description = 'Elimina un estudiante por su ID'
     const idBuscando = Number(req.params.id);
 
     const posicion = estudiantes.findIndex(
