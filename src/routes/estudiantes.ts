@@ -4,7 +4,7 @@ const router = Router();
 
 interface Estudiante { 
   id : number;
-  nombre : string;
+  name : string;
   email: string;
   bootcamp: string;
 }
@@ -50,7 +50,7 @@ router.get("/:id", function (req, res) {
 
 router.post("/", function (req,res) { 
 // #swagger.description = 'Crea un estudiante. El email es obligatorio y el servidor genera el ID'
-  const { nombre, email, bootcamp } = req.body ?? {};
+  const { name, email, bootcamp } = req.body ?? {};
 
   if (!email) {
     res.status(400).json({
@@ -61,7 +61,7 @@ router.post("/", function (req,res) {
 
   const nuevoEstudiante: Estudiante = {
     id: siguienteId,
-    nombre,
+    name,
     email,
     bootcamp
   };
@@ -89,7 +89,7 @@ router.post("/", function (req,res) {
 
     const { nombre, email, bootcamp } = req.body;
 
-    estudianteEncontrado.nombre = nombre;
+    estudianteEncontrado.name = nombre;
     estudianteEncontrado.email = email;
     estudianteEncontrado.bootcamp = bootcamp;
 
